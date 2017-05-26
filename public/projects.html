@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-GB" xml:lang="en-GB">
+
+<head>
+	<link href="//fonts.googleapis.com/css?family=Amaranth"
+	rel="stylesheet" />
+	<link rel = "stylesheet"
+	type = "text/css"
+	href = "something.css" />
+	<link rel="stylesheet" 
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+	<title>Projects</title>
+</head>
+
+<script src="fetch.js" type="text/javascript"></script>
+
+
+
+<body>
+
+	<h1>Projects</h1>
+
+
+		<p class = "links">
+			<a href="index.html">Home</a>
+			<span class = "linkspace"/>
+			<a href="timeline.html">Timeline</a>
+			<span class = "linkspace"/>
+			<a href="projects.html">Projects</a>
+			<span class = "linkspace"/>
+			<a href="blog.html">Blog</a>
+			<span class = "linkspace"/>
+			<a href="events.html">Events</a>
+			<span class = "linkspace"/>
+			<a href="admin.html">Admin</a>
+		</p>
+		
+		<hr align="right"/>
+
+		<p>I wanted to make this website interactive, so I have included below a way for
+		you to access my project database. If you enter in your queries, you can receive a
+		response regarding personal computer science projects that I have completed both
+		during the course of my studies at New York University as an undergrad, and the 
+		University of Bristol as a postgraduate student.
+		</p>
+		
+		<p class = "input"> Within the text box below, you can enter a query: "dictionary",
+		"ios", "android", or "prefix".
+		</p>
+		
+		<input type="text" id="myText" placeholder="Enter Your Query Here..."/>
+		<button onclick="outFunction()">Enter</button>
+		
+		<p id = "output"> 
+		</p>
+		
+		<script>
+		document.getElementById("myText").onkeydown = function(e) {
+			if(e.keyCode == 13) {
+				outFunction();
+			}
+		};
+
+
+		document.getElementById("output").innerHTML = "i got here 3";
+
+		function outFunction() {
+			
+			myFunction();
+
+			function myFunction() {
+				
+				var input = document.getElementById("myText").value;
+				
+				fetch('http://localhost:8080/api/test',{
+				    "headers": {
+      					"Accept": "application/json",
+      					"Content-Type": "application/json"
+    				},
+					"method": "POST",
+					"body": JSON.stringify({
+						"value": input
+					})
+				}).then(function(response) {
+					return response.json()
+				}).then(function(response) {
+					if(response.value instanceof Array) {
+						var result = ""
+						for (var i in response.value) {
+							console.log(response.value[i].name)
+ 					   		result = result + response.value[i].name + " "
+						}
+						document.getElementById("output").innerHTML = result;
+
+					} else {
+						document.getElementById("output").innerHTML = response.value;
+					}
+				})
+				
+			}
+			
+		}
+		</script>
+		
+		<p class = "social">
+			<a href="https://www.facebook.com/demilicious22" 
+			class="fa fa-facebook"></a>
+			<a href="https://twitter.com/DemiJAF"
+			class="fa fa-twitter"></a>
+			<a href="https://www.linkedin.com/in/demi-frechette-19578285/"
+			class="fa fa-linkedin"></a>
+		</p>
+
+</body>
+</html>
