@@ -4,17 +4,37 @@
 "use strict";
 var sql = require("sqlite3");
 var db = new sql.Database("data.db");
-
-db.serialize(create);
-
-function create() {
-	db.run("create table if not exists projs (id, name)");
-	var ps = db.prepare("insert into projs values (?, ?)");
-	ps.run(1, 'dictionary');
-	ps.run(2, 'prefix');
-	ps.run(3, 'ios');
-	ps.run(4, 'android');
-}
+ 
+// db.serialize(create);
+//  
+// function create() {
+//  	db.run("create table if not exists projs (id, type, name, des)");
+//  	var ps = db.prepare("insert into projs values (?, ?, ?, ?)");
+//  	ps.run(1, 'Coursework', 'Dictionary', "In this project, the program takes in user input" +
+//  	" in the form of random letters, and generates words from a dictionary, using" +
+//  	" those letters. For example, if the user enters athlim, the output would be" +
+//  	" am at hi hat him.. etc.");
+//  	ps.run(2, 'Coursework', 'Infix/Prefix Calculator', "In this project, the coded program reads input" +
+//  	" that can be calculated using the prefix or infix methods, both of which" +
+//  	" are important methods within the programming language. It is able to" +
+//  	" decide when the appropriate operator should be used, such as multiplication" +
+//  	" before addition.");
+//  	ps.run(3, 'iOS', 'Legends of the Byte Legionnaire', "An iOS gaming application was developed wherein the main" +
+//  	" character is a legionnaire from ancient Greek times. His goal is to make it" +
+//  	" back home in time to rescue his family. He has a limited amount of weapons," +
+//  	" a sword and a shield. He has to jump over obstacles on his race home.");
+//  	ps.run(4, 'Android', 'Pattern Separation', "This project is my thesis project, developed for" +
+//  	" Android software, and is meant to be a gamification of a cognitive assessment." +
+//  	" Within this game, it follows an escape-the-room storyline wherein the player" +
+//  	" must solve puzzles - which are at the same time assessing some ability -" +
+//  	" in order to escape the room in the given number of minutes.");
+//  	ps.run(5, 'iOS', 'MyGuide', "This iOS application is a productivity/entertainment app" +
+//  	" that was developed to help those who love TV shows and movies. The idea is" +
+//  	" that people place their favorite TV shows in a list, and a calendar is" +
+//  	" automatically filled showing the times that the TV show is airing. Moreover," +
+//  	" movies entered will search for close-by cinemas that are currently showing" +
+//  	" the movie that was requested.");
+// }
 
 var express = require("express");
 var app = express();
@@ -98,12 +118,17 @@ app.post("/api/test", function(req, res) {
 	var value;
 	
 	
-	if(key == "dictionary") {
-		value = db.each("select * from projs where id=1", show);
-	} else if(key == "prefix") {
-		value = db.each("select * from projs where id=2", show);	
+	if(key == "coursework") {
+		value = db.all("select * from projs where type='Coursework'", function(err, rows) {
+			if(err) {
+				console.log("error")
+			} else {
+				console.log(rows)
+			    res.send({"value": rows});
+			}
+		});	
 	} else if(key == "ios") {
-		value = db.all("select * from projs where id=3", function(err, rows) {
+		value = db.all("select * from projs where type='iOS'", function(err, rows) {
 			if(err) {
 				console.log("error")
 			} else {
@@ -112,12 +137,29 @@ app.post("/api/test", function(req, res) {
 			}
 		});
 	} else if(key == "android") {
-		value = db.each("select * from projs where id=4", show);
+		value = db.all("select * from projs where type='Android'", function(err, rows) {
+			if(err) {
+				console.log("error")
+			} else {
+				console.log(rows)
+			    res.send({"value": rows});
+			}
+		});
 	} else {
-		value = "incorrect query";
+		value = "Incorrect query. Please try entering one of the suggested queries.";
+		res.send({"value": value});
 	}
 	
 })
+
+function queryIt(err, rows) {
+	if(err) {
+		console.log("error")
+	} else {
+		console.log(rows)
+	    res.send({"value": rows});
+	}
+}
 
 function show(err, rows) {
     if (err) throw err;

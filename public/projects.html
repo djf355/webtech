@@ -44,15 +44,19 @@
 		University of Bristol as a postgraduate student.
 		</p>
 		
-		<p class = "input"> Within the text box below, you can enter a query: "dictionary",
-		"ios", "android", or "prefix".
+		<p class = "input"> Within the text box below, you can enter a query: "coursework",
+		"ios", or "android".
 		</p>
 		
 		<input type="text" id="myText" placeholder="Enter Your Query Here..."/>
 		<button onclick="outFunction()">Enter</button>
 		
-		<p id = "output"> 
-		</p>
+		<div id = "output">
+		</div>
+		
+		<div id = "output2">
+		</div>
+		
 		
 		<script>
 		document.getElementById("myText").onkeydown = function(e) {
@@ -85,12 +89,27 @@
 					return response.json()
 				}).then(function(response) {
 					if(response.value instanceof Array) {
-						var result = ""
+						var final_div = document.createElement('div');
+						final_div.appendChild(document.createElement('br'));
+						var result = document.createElement('p');
+						var result2 = document.createElement('p');
 						for (var i in response.value) {
-							console.log(response.value[i].name)
- 					   		result = result + response.value[i].name + " "
+							var project = document.createElement('div');
+							var text = document.createTextNode(response.value[i].type + ": " +
+							response.value[i].name);
+							var boldText = document.createElement('b');
+							boldText.appendChild(text);
+							var text2 = document.createTextNode(response.value[i].des + " ");
+ 					   		project.appendChild(boldText);
+ 					   		project.appendChild(document.createElement('br'));
+ 					   		project.appendChild(text2);
+  					   		project.appendChild(document.createElement('br'));
+ 					   		project.appendChild(document.createElement('br'));
+  					   		project.appendChild(document.createElement('br'));
+						 	final_div.appendChild(project);
 						}
-						document.getElementById("output").innerHTML = result;
+						
+						document.getElementById("output").innerHTML = final_div.innerHTML;
 
 					} else {
 						document.getElementById("output").innerHTML = response.value;

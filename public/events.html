@@ -7,6 +7,9 @@
 	<link rel = "stylesheet"
 	type = "text/css"
 	href = "something.css" />
+	<link rel = "stylesheet"
+	type = "text/css"
+	href = "calendar.css" />
 	<link rel="stylesheet" 
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
 	<title>Events</title>
@@ -39,6 +42,71 @@
 		<p>Imagine that reaching this page gives you access to sensitive information or
 		tools that a hacker could use to do damage to this site.
 		</p>
+		
+		<div class="month"> 
+  		<ul>
+    		<li class="prev">&#10094;</li>
+    		<li class="next">&#10095;</li>
+    		<li>
+      	August<br/>
+      		<span style="font-size:18px">2017</span>
+    		</li>
+  		</ul>
+		</div>
+
+		<ul class="weekdays">
+			<li>Mo</li>
+	  		<li>Tu</li>
+  			<li>We</li>
+  			<li>Th</li>
+	  		<li>Fr</li>
+ 			<li>Sa</li>
+ 			<li>Su</li>
+		</ul>
+
+		<ul class="days" id="dayz"> 
+  			<li></li>
+  			<li></li>
+  			<li></li>
+			<li></li>
+  			<li></li>
+			<li></li>
+  			<li></li>
+			<li></li>
+			<li></li>
+  			<li><span class="active">10</span></li>
+  			<li></li>
+  			<li></li>
+  			<li></li>
+  			<li></li>
+  			<li></li>
+  			<li></li>
+  			<li></li>
+  			<li></li>
+  			<li></li>
+  			<li></li>
+  			<li></li>
+  			<li></li>
+  			<li></li>
+  			<li></li>
+  			<li></li>
+  			<li></li>
+  			<li></li>
+  			<li></li>
+  			<li></li>
+  			<li></li>
+  			<li></li>
+		</ul>
+		
+		<script>
+		<![CDATA[
+		var ul = document.getElementById("dayz");
+		var items = ul.getElementsByTagName("li");
+		for(var i = 0; i < items.length; i++) {
+			items[i].value = (i+1);
+		}
+		]]>
+		</script>
 		
 		<p class = "social">
 			<a href="https://www.facebook.com/demilicious22" 
